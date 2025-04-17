@@ -332,7 +332,7 @@ class Model(dj.Manual):
     snapshotindex        : int          # which snapshot for prediction (if -1, latest)
     shuffle              : int          # Shuffle (1) or not (0)
     trainingsetindex     : int          # Index of training fraction list in config.yaml
-    engine               : varchar(16)  # Engine used for model. Either 'tensorflow' or 'pytorch'
+    engine='tensorflow'  : varchar(16)  # Engine used for model. Either 'tensorflow' or 'pytorch'
     unique index (task, date, iteration, shuffle, snapshotindex, trainingsetindex, engine)
     scorer               : varchar(64)  # Scorer/network name - DLC's GetScorerName()
     config_template      : longblob     # Dictionary of the config for analyze_videos()
@@ -423,14 +423,13 @@ class Model(dj.Manual):
             # ---- Get scorer name ----
             # "or 'f'" below covers case where config returns None. str_to_bool handles else
             scorer_legacy = str_to_bool(dlc_config.get("scorer_legacy", "f"))
-
             dlc_scorer = GetScorerName(
                 cfg=dlc_config,
                 shuffle=shuffle,
                 trainFraction=dlc_config["TrainingFraction"][int(trainingsetindex)],
                 modelprefix=model_prefix,
             )[scorer_legacy]
-        if engine == "pytorch":
+        elif engine == "pytorch":
             from deeplabcut.pose_estimation_pytorch.apis.utils import get_scorer_name
 
             dlc_scorer = get_scorer_name(
@@ -439,7 +438,6 @@ class Model(dj.Manual):
                 train_fraction=dlc_config["TrainingFraction"][int(trainingsetindex)],
                 modelprefix=model_prefix,
             )
-
         else:
             raise ValueError(f"Unknow engine type {engine}")
 
