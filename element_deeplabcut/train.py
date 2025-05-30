@@ -167,13 +167,13 @@ class DLCModelTraining(dj.Computed):
             "project_path", "dlc_config", "pytorch_config"
         )
         root_dir = get_dlc_root_data_dir()[0].parent / "outbox"
-        project_dir = pathlib.Path(project_dir.replace("\\","/"))
-        
+        project_dir = pathlib.Path(project_dir.replace("\\", "/"))
+
         # Locate and open the config file
         dlc_config_path = root_dir / project_dir / "config.yaml"
         with open(dlc_config_path, "r") as f:
             dlc_config_file = yaml.safe_load(f)
-        
+
         # Compare the contents
         if dlc_config_db != dlc_config_file:
             raise ValueError(
@@ -181,7 +181,11 @@ class DLCModelTraining(dj.Computed):
             )
         # Locate and open the pytorch config file
         iteration = dlc_config_file["iteration"]
-        pytorch_config_path = next((root_dir / project_dir / f"dlc-models-pytorch").glob(f"iteration-{iteration}/*/train/pytorch_config.yaml"))
+        pytorch_config_path = next(
+            (root_dir / project_dir / f"dlc-models-pytorch").glob(
+                f"iteration-{iteration}/*/train/pytorch_config.yaml"
+            )
+        )
         with open(pytorch_config_path, "r") as f:
             pytorch_config_file = yaml.safe_load(f)
 
@@ -190,7 +194,7 @@ class DLCModelTraining(dj.Computed):
             raise ValueError(
                 f"Contents of PyTorch config file: {pytorch_config_path} do not match the database config file."
             )
-        
+
         training_set_index, train_shuffle = (DLCTrainingTask & key).fetch1(
             "trainingsetindex", "shuffle"
         )
