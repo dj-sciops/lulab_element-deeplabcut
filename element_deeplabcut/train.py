@@ -220,7 +220,13 @@ class DLCModelTraining(dj.Computed):
                 "*/train/pytorch-config.yaml"
             )
         )
-        training_log_filepath = next(
+        with open(trained_config_path, "r") as f:
+            trained_config_file = yaml.safe_load(f)
+
+        with open(trained_pytorch_config_path, "r") as f:
+            trained_pytorch_config_file = yaml.safe_load(f)
+
+        training_log_file = next(
             (get_dlc_processed_data_dir() / training_dir_path).glob("*/train/train.txt")
         )
         training_snapshot_file = sorted(
@@ -233,13 +239,9 @@ class DLCModelTraining(dj.Computed):
         self.insert1(
             {
                 **key,
-                "trained_pose_cfg": yaml.safe_load(trained_config_path),
-                "trained_pytorch_config": yaml.safe_load(trained_pytorch_config_path),
-                "training_log_file": training_log_filepath.relative_to(
-                    get_dlc_processed_data_dir()
-                ),
-                "training_snapshot_file": training_snapshot_file.relative_to(
-                    get_dlc_processed_data_dir()
-                ),
+                "trained_pose_cfg": trained_config_file,
+                "trained_pytorch_config": trained_pytorch_config_file,
+                "training_log_file": training_log_file,
+                "training_snapshot_file": training_snapshot_file,
             }
         )
