@@ -163,12 +163,10 @@ class DLCModelTraining(dj.Computed):
         import pathlib
 
         # Fetch the task entry from TrainingTask
-        project_dir, dlc_config_db, pytorch_config_db = (TrainingTask & key).fetch1(
+        project_dir, dlc_config_db, pytorch_config_db = (DLCTrainingTask & key).fetch1(
             "project_path", "dlc_config", "pytorch_config"
         )
-        dlc_config_db = yaml.safe_load(dlc_config_db)
-        pytorch_config_db = yaml.safe_load(pytorch_config_db)
-
+        
         # Locate the model folder config files
         dlc_config_path = get_dlc_root_data_dir() / (project_dir + "config.yaml")
         pytorch_config_path = get_dlc_root_data_dir() / (
