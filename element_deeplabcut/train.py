@@ -129,7 +129,7 @@ class DLCTrainingTask(dj.Manual):
     pytorch_config: longblob
     shuffle: int
     trainingsetindex: int
-    snapshot_file=null: filepath@dlc_training
+    snapshot_file=null: filepath@dlc-training
     """
 
 
@@ -151,8 +151,8 @@ class DLCModelTraining(dj.Computed):
     ---
     trained_pose_cfg: longblob
     trained_pytorch_config: longblob
-    training_log_file: filepath@dlc_training
-    training_snapshot_file: filepath@dlc_training
+    training_log_file: filepath@dlc-training
+    training_snapshot_file: filepath@dlc-training
     """
 
     def make(self, key):
