@@ -147,7 +147,7 @@ class DLCModelTraining(dj.Computed):
     """
 
     definition = """
-    -> TrainingTask
+    -> DLCTrainingTask
     ---
     trained_pose_cfg: longblob
     trained_pytorch_config: longblob
