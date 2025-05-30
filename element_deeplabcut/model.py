@@ -339,7 +339,7 @@ class Model(dj.Manual):
     project_path         : varchar(255) # DLC's project_path in config relative to root
     model_prefix=''      : varchar(32)
     model_description='' : varchar(300)
-    -> [nullable] train.TrainingParamSet
+    -> [nullable] train.DLCTrainingTask
     """
     # project_path is the only item required downstream in the pose schema
 
@@ -365,7 +365,7 @@ class Model(dj.Manual):
         trainingsetindex,
         model_description="",
         model_prefix="",
-        paramset_idx: int = None,
+        task_id: int = None,
         prompt=True,
         params=None,
     ):
@@ -457,7 +457,7 @@ class Model(dj.Manual):
             "trainingsetindex": int(trainingsetindex),
             "engine": engine,
             "project_path": project_path.relative_to(root_dir).as_posix(),
-            "paramset_idx": paramset_idx,
+            "paramset_idx": task_id,
             "config_template": dlc_config,
         }
 
