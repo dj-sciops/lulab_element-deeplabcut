@@ -166,7 +166,7 @@ class DLCModelTraining(dj.Computed):
         project_dir, dlc_config_db, pytorch_config_db = (DLCTrainingTask & key).fetch1(
             "project_path", "dlc_config", "pytorch_config"
         )
-        root_dir = get_dlc_root_data_dir().parent / "outbox"
+        root_dir = get_dlc_root_data_dir()[0].parent / "outbox"
         project_dir = pathlib.Path(project_dir.replace("\\","/"))
         
         # Locate and open the config file
