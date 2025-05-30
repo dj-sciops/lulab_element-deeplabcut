@@ -190,16 +190,15 @@ class DLCModelTraining(dj.Computed):
             raise ValueError(
                 f"Contents of PyTorch config file: {pytorch_config_path} do not match the database config file."
             )
-
-        # Proceed with training if files match
+        
         training_set_index, train_shuffle = (DLCTrainingTask & key).fetch1(
             "trainingsetindex", "shuffle"
         )
 
         train_network(
             config=dlc_config_path.as_posix(),
-            shuffle=train_shuffle,
-            trainingsetindex=training_set_index,
+            shuffle=int(train_shuffle),
+            trainingsetindex=int(training_set_index),
         )
 
         # Fetch the trained pose config and pytorch config
