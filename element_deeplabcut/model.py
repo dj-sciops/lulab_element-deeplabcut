@@ -339,7 +339,6 @@ class Model(dj.Manual):
     project_path         : varchar(255) # DLC's project_path in config relative to root
     model_prefix=''      : varchar(32)
     model_description='' : varchar(300)
-    -> [nullable] train.TrainingParamSet
     """
     # project_path is the only item required downstream in the pose schema
 
